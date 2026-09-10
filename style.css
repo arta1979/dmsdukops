@@ -55,7 +55,8 @@
         .header-image {
             height: 150px;
             width: 150px;
-            border: 1px solid #29466B;
+            border: none;
+            background: transparent;
             border-radius: 5px;
             -webkit-border-radius: 5px;
             -moz-border-radius: 5px;
@@ -65,6 +66,7 @@
         .header-text {
             flex: 1;
             min-width: 0;
+            text-align: center;
         }
         
         .header-title {
@@ -144,9 +146,9 @@
         }
         
         input[type="file"] {
-            font-size: 14px;
+            font-size: clamp(18px, 3vw, 28px);
             line-height: 1.5;
-            padding: 6px 0;
+            padding: 10px 0;
             border-radius: 999px;
             overflow: hidden;
         }
@@ -1118,4 +1120,134 @@
 
         #installPwaButton.visible {
             display: block;
+        }
+
+        /* Tipografi dan aksen emas tua untuk tampilan yang elegan dan mudah dibaca */
+        :root {
+            --gold-deep: #B89558;
+            --gold-soft: #C7AA72;
+            --gold-muted: #A98D5A;
+        }
+
+        body,
+        button,
+        input,
+        select,
+        textarea {
+            font-family: "Segoe UI", "Trebuchet MS", Arial, sans-serif;
+            font-size: clamp(18px, 3vw, 36px);
+        }
+
+        body {
+            color: var(--gold-soft);
+        }
+
+        .header-title {
+            color: var(--gold-deep);
+            font-size: 40px;
+            line-height: 1.35;
+            letter-spacing: 0.02em;
+        }
+
+        .header-subtitle {
+            color: var(--gold-muted);
+            font-size: 30px;
+            line-height: 1.4;
+        }
+
+        #printable-area {
+            font-size: 14px;
+        }
+
+        label,
+        .desa-start-card h2,
+        .section-title,
+        .input-section h3 {
+            color: var(--gold-deep);
+        }
+
+        .desa-start-card h2 {
+            font-size: 44px;
+        }
+
+        .desa-start-card p {
+            color: var(--gold-muted);
+            font-size: 32px;
+        }
+
+        button {
+            font-weight: 600;
+            letter-spacing: 0.01em;
+        }
+
+        /* Isi seluruh layar dan sesuaikan ukuran elemen dengan perangkat. */
+        html,
+        body {
+            width: 100%;
+            min-width: 0;
+            min-height: 100%;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            min-width: 0;
+            min-height: 100vh;
+            min-height: 100dvh;
+            padding: clamp(12px, 3vw, 28px);
+        }
+
+        .header-container {
+            gap: 15px;
+            padding-bottom: 15px;
+        }
+
+        .header-image {
+            width: clamp(90px, 20vw, 150px);
+            height: clamp(90px, 20vw, 150px);
+            flex: 0 0 auto;
+        }
+
+        .header-title {
+            font-size: clamp(22px, 4.5vw, 32px);
+        }
+
+        .header-subtitle {
+            font-size: clamp(14px, 2.8vw, 20px);
+        }
+
+        .running-file-name {
+            overflow: hidden;
+            white-space: nowrap;
+            text-align: left;
+        }
+
+        .running-file-name span {
+            display: inline-block;
+            min-width: 100%;
+            padding-left: 100%;
+            animation: fileNameTicker 16s linear infinite;
+        }
+
+        @keyframes fileNameTicker {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(-100%);
+            }
+        }
+
+        .input-section {
+            padding: 15px;
+        }
+
+        #selectedDesaLabel {
+            font-size: clamp(30px, 8vw, 60px);
+            font-family: "Arial Rounded MT Bold", "Trebuchet MS", "Segoe UI", sans-serif;
+            letter-spacing: 0.01em;
+        }
+
+        .action-buttons {
+            gap: 10px;
         }
