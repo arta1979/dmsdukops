@@ -1,0 +1,15 @@
+# Satu nama file desa per baris
+Ambengan.txt
+Pegadungan.txt
+Wanagiri.txt
+Panji_Anom.txt
+Sambangan.txt
+Tegallinggah.txt
+Selat.txt
+Pegayaman.txt
+Padang_Bulia.txt
+Gitgit.txt
+Kayuputih.txt
+Panji.txt
+Silangjana.txt
+Kelurahan_Sukasada.txt

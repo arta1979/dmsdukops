@@ -1,0 +1,91 @@
+const CACHE_NAME = "dukops-babinsa-v6";
+const APP_SHELL = [
+  "./",
+  "./index.html",
+  "./app.js",
+  "./manifest.webmanifest",
+  "./data/README.txt",
+  "./data/desa/daftar.txt",
+  "./data/desa/Ambengan.txt",
+  "./data/desa/Pegadungan.txt",
+  "./data/desa/Wanagiri.txt",
+  "./data/desa/Panji_Anom.txt",
+  "./data/desa/Sambangan.txt",
+  "./data/desa/Tegallinggah.txt",
+  "./data/desa/Selat.txt",
+  "./data/desa/Pegayaman.txt",
+  "./data/desa/Padang_Bulia.txt",
+  "./data/desa/Gitgit.txt",
+  "./data/desa/Kayuputih.txt",
+  "./data/desa/Panji.txt",
+  "./data/desa/Silangjana.txt",
+  "./data/desa/Sukasada.txt",
+  "./data/desa/Kelurahan_Sukasada.txt",
+  "./icons/favicon.ico",
+  "./icons/favicon-16x16.png",
+  "./icons/favicon-32x32.png",
+  "./icons/apple-touch-icon.png",
+  "./icons/android-chrome-192x192.png",
+  "./icons/android-chrome-512x512.png"
+];
+
+self.addEventListener("install", event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(APP_SHELL))
+      .then(() => self.skipWaiting())
+  );
+});
+
+self.addEventListener("activate", event => {
+  event.waitUntil(
+    caches.keys()
+      .then(keys => Promise.all(
+        keys
+          .filter(key => key !== CACHE_NAME)
+          .map(key => caches.delete(key))
+      ))
+      .then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener("message", event => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
+});
+
+self.addEventListener("fetch", event => {
+  if (event.request.method !== "GET") return;
+
+  const requestUrl = new URL(event.request.url);
+  const alwaysFresh = requestUrl.pathname.endsWith("/index.html") ||
+    requestUrl.pathname.endsWith("/app.js") ||
+    requestUrl.pathname.endsWith("/style.css") ||
+    requestUrl.pathname.endsWith("/manifest.webmanifest") ||
+    requestUrl.pathname.endsWith("/sw.js");
+
+  if (alwaysFresh) {
+    event.respondWith(
+      fetch(event.request, { cache: "no-store" }).then(response => {
+        const copy = response.clone();
+        caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+        return response;
+      }).catch(() => caches.match(event.request))
+    );
+    return;
+  }
+
+  event.respondWith(
+    caches.match(event.request).then(cached => {
+      if (cached) return cached;
+      return fetch(event.request).then(response => {
+        if (event.request.url.startsWith(self.location.origin)) {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+        }
+        return response;
+      });
+    })
+  );
+});
